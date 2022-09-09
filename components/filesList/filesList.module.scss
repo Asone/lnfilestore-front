@@ -1,0 +1,21 @@
+.card{
+    cursor: pointer;
+}
+
+.post-element{
+
+    &.appear{
+        transition: 800ms ease-in-out all;
+        transform: translateZ(45px);
+    }
+
+    &.enter{
+        transition: 800ms ease-in-out all;
+        transform: translateZ(0px);
+    }
+
+    &.exit{
+        transition: 800ms ease-in-out all;
+        transform: translateZ(-45px);
+    }
+}

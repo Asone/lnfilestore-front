@@ -14,3 +14,7 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.logo-ribbon{
+    max-width: 75px;
+}
