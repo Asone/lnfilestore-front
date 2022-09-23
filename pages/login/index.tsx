@@ -1,10 +1,11 @@
-import axios, { AxiosResponse } from 'axios';
+
 import { NextPage } from 'next';
 import { NextRouter, useRouter } from 'next/dist/client/router';
-import { FormEvent, FormEventHandler } from 'react';
+import { FormEvent } from 'react';
 import getConfig from 'next/config';
 import { UserService } from '../../services/user.service';
 import styles from './index.module.scss';
+
 const config = getConfig();
 
 const LoginPage: NextPage = () => {

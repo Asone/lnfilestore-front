@@ -1,7 +1,14 @@
 {
-    "name": "next-with-apollo",
+    "name": "lnfilestorefront",
     "version": "0.1.0",
     "private": true,
+    "repository": {
+        "url": "https://github.com/Asone/lnfilestore-front"
+    },
+    "author": {
+        "name": "Nelson Herbin",
+        "url": "https://github.com/Asone"
+    },
     "scripts": {
         "dev": "node server.js",
         "build": "next build",

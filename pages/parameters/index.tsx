@@ -1,13 +1,9 @@
 import { NextPage } from 'next';
-import { Button, Modal } from 'react-bootstrap';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { LocalStorageService } from '../../services/localstorage.service';
 import { client } from '../../client';
-import { NormalizedCacheObject, gql } from '@apollo/client';
-import { PaymentTypeInterface } from '../../interfaces/PaymentType.interface';
+import { NormalizedCacheObject } from '@apollo/client';
 import { saveAs } from 'file-saver';
-import { FileUploader } from 'react-drag-drop-files';
-import { getInvoiceForMediaQuery } from '../../graphql/queries/invoiceForMedia.gql';
 import styles from './index.module.scss';
 import RestoreCacheModal from '../../components/restore-cache-modal/index';
 import DeleteCacheModal from '../../components/delete-cache-modal/index';
@@ -15,32 +11,13 @@ import { CacheDataHelpModal } from '../../components/cache-data-help-modal';
 
 const ParametersPage: NextPage = () => {
 
-    const localStorageService = new LocalStorageService();
+    // const localStorageService = new LocalStorageService();
 
-    const [show, setShow] = useState( false );
-
-    const [file, setFile] = useState<File>();
     const [showRestoreCacheModal, UpdateShowRestoreCacheModal] = useState<boolean>( false );
     const [showDeleteCacheModal, UpdateShowDeleteCacheModal] = useState<boolean>( false );
     const [showCacheHelpModal, UpdateShowCacheHelpModal] = useState<boolean>( false );
 
-    useEffect( () => {
-        if ( !file ) return;
-
-        const reader = new FileReader();
-
-        file.text().then( ( content: string ) => {
-            try {
-                const data = JSON.parse( content );
-                let r = client.cache.restore( data );
-
-            } catch ( e ) {
-                console.error( "An error while parsing the file happened" );
-            }
-        } )
-            ;
-    }, [file] )
-
+    // Builds cache back-up file and saves on user download folder
     const downloadBackup = () => {
         try {
             let cache: NormalizedCacheObject = client.cache.extract();
@@ -59,6 +36,7 @@ const ParametersPage: NextPage = () => {
     const closeDeleteModal = () => UpdateShowDeleteCacheModal( false );
     const displayCacheHelpModal = () => UpdateShowCacheHelpModal( true );
     const closeCacheHelpModal = () => UpdateShowCacheHelpModal( false );
+
     return (
         <>
             <RestoreCacheModal show={showRestoreCacheModal} handleClose={closeRestoreCacheModal} />
@@ -84,15 +62,6 @@ const ParametersPage: NextPage = () => {
                                 <i className="icon-back-in-time"></i> &nbsp;
                                 Restore back-up
                             </button>
-
-
-                            {/*
-                            <FileUploader name="file" handleChange={handleChange} />
-                            <button type="button" className="btn btn-primary" onClick={restoreCache}>Restore</button>
-
-                            <hr />
-                            <button className="btn btn-primary" type="button" onClick={handleShow}>Back-up cache</button>
-                            <button className="btn btn-warning" type="button" onClick={handleShow}>Clear local cache</button> */}
                         </div>
                     </div>
                 </div>

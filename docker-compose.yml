@@ -1,0 +1,11 @@
+version: '2.1'
+
+services:
+  front: 
+    build:
+        dockerfile: Dockerfile
+        context: '.'
+    expose: 
+      - 9999
+    ports: 
+      - 9999

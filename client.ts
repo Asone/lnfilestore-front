@@ -25,7 +25,6 @@ const cache = new InMemoryCache( {
 
 if ( typeof window !== 'undefined' ) {
     try {
-        // See above for additional options, including other storage providers.
         await persistCache( {
             cache,
             storage: window.localStorage,
