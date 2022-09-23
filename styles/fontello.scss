@@ -54,6 +54,41 @@
   /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
 }
 
+[class^="icon-"]:before, [class*=" icon-"]:before {
+  font-family: "fontello";
+  font-style: normal;
+  font-weight: normal;
+  speak: never;
+
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: .2em;
+  text-align: center;
+  /* opacity: .8; */
+
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
+
+  /* fix buttons height, for twitter bootstrap */
+  line-height: 1em;
+
+  /* Animation center compensation - margins should be symmetric */
+  /* remove if not needed */
+  margin-left: .2em;
+
+  /* you can be more comfortable with increased icons size */
+  /* font-size: 120%; */
+
+  /* Font smoothing. That was taken from TWBS */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Uncomment for 3D effect */
+  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+
 .icon-cloud-flash:before { content: '\e800'; } /* '' */
 .icon-music:before { content: '\e801'; } /* '' */
 .icon-headphones:before { content: '\e802'; } /* '' */
@@ -64,9 +99,18 @@
 .icon-logout:before { content: '\e807'; } /* '' */
 .icon-trash-empty:before { content: '\e808'; } /* '' */
 .icon-back-in-time:before { content: '\e809'; } /* '' */
+.icon-ok-circled:before { content: '\e80a'; } /* '' */
+.icon-cancel-circled:before { content: '\e80b'; } /* '' */
+.icon-cancel:before { content: '\e80c'; } /* '' */
+.icon-doc-add:before { content: '\e80d'; } /* '' */
+.icon-help-circled:before { content: '\e80e'; } /* '' */
+.icon-info-circled:before { content: '\e80f'; } /* '' */
+.icon-spin4:before { content: '\e834'; } /* '' */
+.icon-docs:before { content: '\f0c5'; } /* '' */
 .icon-download-cloud:before { content: '\f0ed'; } /* '' */
 .icon-upload-cloud:before { content: '\f0ee'; } /* '' */
 .icon-doc-text:before { content: '\f0f6'; } /* '' */
+.icon-info:before { content: '\f129'; } /* '' */
 .icon-file-pdf:before { content: '\f1c1'; } /* '' */
 .icon-file-word:before { content: '\f1c2'; } /* '' */
 .icon-file-excel:before { content: '\f1c3'; } /* '' */
@@ -75,4 +119,7 @@
 .icon-file-archive:before { content: '\f1c6'; } /* '' */
 .icon-file-video:before { content: '\f1c8'; } /* '' */
 .icon-file-code:before { content: '\f1c9'; } /* '' */
+.icon-lifebuoy:before { content: '\f1cd'; } /* '' */
 .icon-sliders:before { content: '\f1de'; } /* '' */
+.icon-window-close:before { content: '\f2d3'; } /* '' */
+.icon-window-close-o:before { content: '\f2d4'; } /* '' */

@@ -65,16 +65,8 @@ const File: NextPage = () => {
         <>
             <div className="container">
                 <div className="row">
-                    <div className="col-4">
-                        <div className="card">
-                            <h5 className="card-header text-light bg-secondary">
-                                File information
-                            </h5>
-                            <div className="card-body bg-light">
-                                {uuid && fileData?.getMedia && <FileCard uuid={uuid} media={fileData.getMedia} />}
-                            </div>
-                        </div>
-                    </div>
+                    {uuid && fileData?.getMedia && <FileCard uuid={uuid} media={fileData.getMedia} />}
+
                     {uuid && <Payment uuid={uuid} />}
                 </div>
             </div>

@@ -1,4 +1,4 @@
-import { CookieValueTypes, getCookie } from 'cookies-next';
+import { CookieValueTypes, deleteCookie, getCookie, setCookie } from 'cookies-next';
 import axios, { AxiosResponse } from 'axios';
 import getConfig from 'next/config';
 export class UserService {
@@ -16,5 +16,10 @@ export class UserService {
 
     login = ( data: { username?: string, password?: string } ): Promise<AxiosResponse<void>> => {
         return axios.postForm( this.config.publicRuntimeConfig.api_host + '/auth', data, { withCredentials: true } );
+    }
+
+    reset = () => {
+        deleteCookie( 'session' );
+        // setCookie( 'session', null );
     }
 }

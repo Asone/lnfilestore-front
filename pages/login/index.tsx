@@ -4,7 +4,7 @@ import { NextRouter, useRouter } from 'next/dist/client/router';
 import { FormEvent, FormEventHandler } from 'react';
 import getConfig from 'next/config';
 import { UserService } from '../../services/user.service';
-
+import styles from './index.module.scss';
 const config = getConfig();
 
 const LoginPage: NextPage = () => {
@@ -40,10 +40,10 @@ const LoginPage: NextPage = () => {
 
     return (
         <div className="col-4 offset-4">
-            <h3>Log-in</h3>
-            <div className="card">
+            <div className="card bg-transparent">
                 <form className="form" onSubmit={handleSubmit}>
-                    <div className="card-body">
+                    <h5 className={`card-header bg-secondary text-light bg-opacity-50 ${ styles.loginFormHeader }`}>Log in</h5>
+                    <div className={`card-body bg-light text-light bg-opacity-25 ${ styles.loginFormBody }`}>
                         <div className="form-floating">
                             <input className="form-control" type="text" name="login" id="login" required aria-required />
                             <label className="label" htmlFor="login">Login</label>

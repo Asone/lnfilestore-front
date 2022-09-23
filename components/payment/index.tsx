@@ -1,6 +1,6 @@
 import { gql, ObservableQuery, useLazyQuery, useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
-import { QRCodeSVG } from 'qrcode.react';
+import { QRCodeSVG, QRCodeCanvas } from 'qrcode.react';
 import { useState, useEffect } from 'react';
 import { client } from '../../client';
 import { GetInvoiceForMediaResponse, getInvoiceForMediaQuery } from '../../graphql/queries/invoiceForMedia.gql';
@@ -10,9 +10,11 @@ import { MediaPaymentService } from '../../services/payment.service';
 import getConfig from 'next/config';
 import { saveAs } from 'file-saver';
 import { Subscription } from '@apollo/client/react/components';
-import { Toast } from 'react-bootstrap';
+import { Toast, ToastContainer } from 'react-bootstrap';
 import InvoiceRestoreModal from '../invoice-restore-modal';
-
+import { BitcoinLoaderComponent } from '../loader/loader.component';
+import styles from './index.module.scss';
+import { AnimatePresence, motion, Variants } from 'framer-motion';
 interface Props {
     uuid: string;
 }
@@ -20,6 +22,24 @@ const config = getConfig();
 
 const Payment: React.FC<Props> = ( props: Props ) => {
 
+    const variants: Variants = {
+        out: {
+            opacity: 0,
+            scale: 0.95,
+            transition: {
+                duration: 0.15,
+                ease: 'easeOut'
+            }
+        },
+        in: {
+            opacity: 1,
+            scale: 1,
+            transition: {
+                duration: 0.15,
+                ease: 'easeIn'
+            }
+        }
+    };
     const mediaPaymentService: MediaPaymentService = new MediaPaymentService( client );
     const router = useRouter();
     let [loading, updateLoading] = useState<boolean>( true );
@@ -29,6 +49,7 @@ const Payment: React.FC<Props> = ( props: Props ) => {
     let [mediaInvoice, updateMediaInvoice] = useState<PaymentTypeInterface>();
     let [showCopyPasteToast, updateCopyPasteToast] = useState<boolean>( false );
     let [showInvoiceRestoreModal, updateShowInvoiceRestoreModal] = useState<boolean>( false );
+
     let [getMediaInvoice, { data, error }] = useLazyQuery<GetInvoiceForMediaResponse>( getInvoiceForMediaQuery, {
         variables: {
             uuid,
@@ -47,7 +68,9 @@ const Payment: React.FC<Props> = ( props: Props ) => {
         onError: ( error ) => {
             console.error( "An error happened while fetching media invoice" );
             console.trace( error );
-            updatePaymentRequest( undefined );
+            setTimeout( () => {
+                updatePaymentRequest( undefined )
+            }, 15000 );
         },
         fetchPolicy: 'cache-and-network',
         pollInterval: 30000,
@@ -113,51 +136,89 @@ const Payment: React.FC<Props> = ( props: Props ) => {
         }
     }, [showCopyPasteToast] );
 
-    if ( loading && !paymentRequest ) {
-        return ( <div className="text-center">Loading...</div> )
+    const cardContent = () => {
+
+        if ( loading && !paymentRequest ) {
+            return (
+                <>
+                    <BitcoinLoaderComponent />
+                    Loading...
+                </>
+            );
+        }
+
+        if ( isSettled ) {
+            return (
+                <>
+                    <i className={`text-success icon-ok-circled ${ styles.filePaymentSuccess }`}></i>
+                    <div>File paid.</div>
+                    <br />
+                    <div>Your download will begin shortly...</div>
+                </>
+
+            );
+        }
+
+        if ( paymentRequest ) {
+
+            return (
+                <>
+
+                    <div className="col-12 mb-3"><b>Scan the QR code below</b></div>
+                    <div className="col-12">
+                        <QRCodeCanvas value={paymentRequest} width="200" height="200" onClick={copyToClipboard} aria-label={paymentRequest} className="clickable"></QRCodeCanvas>
+                    </div>
+                    <div className="col-12 mt-3">or copy and paste its value by clicking onto the qr code</div>
+                </>
+            );
+
+        }
+
+        return ( <></> );
     }
 
-    if ( isSettled ) {
-        return (
-            <>
-                <div>File paid.</div>
-                <br />
-                <div>Your download will begin shortly...</div>
-            </>
-        )
-    }
-
-
-    if ( paymentRequest ) {
         return (
             <>
                 <InvoiceRestoreModal show={showInvoiceRestoreModal} updateInvoice={closeInvoiceRestoreModal} />
-                <div className="col-8 text-center">
-                    <div className="card">
-                        <h5 className="card-header bg-secondary text-light">File payment
-                            <span className="float-end bg-light text-dark badge"><i className="icon-back-in-time cursor-pointer" onClick={() => updateShowInvoiceRestoreModal( true )}></i></span>
+                <AnimatePresence
+                    initial={false}
+                    exitBeforeEnter
+                >
+                    <motion.div
+                        variants={variants}
+                        animate="in"
+                        initial="out"
+                        exit="out"
+                        className="col-12 col-md-8 col-lg-8 text-center"
+                    >
+                        <div>
+                            <div className="card bg-transparent">
+                                <h5 className={`card-header bg-secondary text-light bg-opacity-50 ${ styles.paymentFormHeader }`}> File payment
+                                    <span className="float-end bg-light text-dark badge clickable"><i className="icon-back-in-time cursor-pointer" onClick={() => updateShowInvoiceRestoreModal( true )}></i></span>
                         </h5>
-                        <div className="card-body bg-light">
-                            <div>Scan the QR code below :</div>
-                            <QRCodeSVG value={paymentRequest} size={256} onClick={copyToClipboard} aria-label={paymentRequest}></QRCodeSVG>
-                            <div>or copy and paste its value by clicking onto the qr code</div>
+                                <div className={`card-body bg-light bg-opacity-25 ${ styles.paymentFormBody }`}>
+
+                                    <div className="card col-12 col-md-6 offset-0 offset-md-3">
+                                        <div className="card-body text-center">
+                                            {cardContent()}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </motion.div>
+                </AnimatePresence>
+                <ToastContainer position="bottom-end">
                             <Toast bg="success" show={showCopyPasteToast}>
                                 <Toast.Header closeButton={false}>
-
-                                    <strong className="me-auto">Invoice saved to clipboard</strong>
-
+                            <strong className="me-auto">Copied in clipboard !</strong>
                                 </Toast.Header>
                             </Toast>
-                        </div>
-                    </div>
-                </div>
+                </ToastContainer>
             </>
 
         )
-    }
-    return (
-        <div>{paymentRequest}</div>
-    )
+
 }
 
 export default Payment;

@@ -114,3 +114,20 @@
     flex-direction: column;
   }
 }
+
+.ribbon{
+    box-shadow: inset 0px 0px 10px 2px rgb(255 255 255 / 50%);
+    backdrop-filter: blur(25px);
+}
+
+.ribbonText{
+    text-shadow: 1px 1px 1px rgb(176 176 176 / 50%);
+    background-color: #000;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.ribbon-logo{
+
+}

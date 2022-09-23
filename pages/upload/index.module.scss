@@ -1,0 +1,14 @@
+.uploadFormHeader{
+    backdrop-filter: blur(3px);
+}
+
+.uploadFormBody{
+    backdrop-filter: blur(9px);
+}
+
+.fileLabel{
+    border: none;
+    &:global(.is-disabled[for="file"]) {
+        border: none;
+    }
+}

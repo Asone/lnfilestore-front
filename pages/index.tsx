@@ -11,6 +11,7 @@ import { PostsListComponent } from '../components/postsList/postLists.component'
 import { BitcoinLoaderComponent } from '../components/loader';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 const Home: NextPage = () => {
     const [hasMounted, setHasMounted] = useState( false );
 
@@ -28,13 +29,22 @@ const Home: NextPage = () => {
 
     return (
         <>
-            <div className="col-12 text-center">
-                <h2>Lightning <img src="/lightning.svg" className="logo-ribbon" alt='Lightning Network logo'></img> filestore</h2>
+            <div className={`card col-6 offset-3 bg-light pt-3 pb-4 border-3 border-light bg-opacity-25 rounded-3 bg-gradient ${ styles.ribbon }`}>
+
+                <div className="card-body  text-center">
+                    <h2 className={`mb-0 ${ styles.ribbonText }`} >Lightning <img src="/lightning.svg" className="logo-ribbon" alt='Lightning Network logo'></img> Filestore</h2>
+                </div>
+                <div className="col-10 offset-1 text-center">
+                    Buy data and files over the lightning network !
+                </div>
+                <div className="col-12 col-md-10 offset-md-1 text-center mt-3">
+                    <Link href={'/files'}><button type="button" className="btn btn-light">
+                        View files
+                    </button>
+                    </Link>
+                </div>
             </div>
-            <div className="col-6 offset-3 mt-2 text-center">
-                Buy data and files over the lightning network !
-            </div>
-            <Query query={postsList} client={client}>
+            {/* <Query query={postsList} client={client}>
                 {
                     ( result: QueryResult<GetPostsListResults> ): JSX.Element | null => {
                         if ( result.loading ) {
@@ -59,7 +69,7 @@ const Home: NextPage = () => {
                     }
 
                 }
-            </Query>
+            </Query> */}
 
         </>
   )

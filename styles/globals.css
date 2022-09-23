@@ -6,6 +6,11 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
+body{
+    background: url('/bg.jpeg');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
 a {
   color: inherit;
   text-decoration: none;
@@ -17,4 +22,8 @@ a {
 
 .logo-ribbon{
     max-width: 75px;
+}
+
+.clickable{
+    cursor: pointer;
 }

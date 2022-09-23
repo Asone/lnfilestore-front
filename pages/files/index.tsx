@@ -13,7 +13,8 @@ import { MediaPaymentService } from '../../services/payment.service';
 import { IconService } from '../../services/icon.service';
 import { PaymentTypeInterface } from '../../interfaces/PaymentType.interface';
 import { MediaInterface } from '../../interfaces/Media.interface';
-
+import { ListGroup, Nav } from 'react-bootstrap';
+import styles from './index.module.scss';
 const Files: NextPage = () => {
     const iconService = new IconService();
     const router = useRouter();
@@ -91,26 +92,24 @@ const Files: NextPage = () => {
 
 
     return (
-        <div className="card col-8 offset-2">
-            <h5 className="card-header bg-secondary text-light">
+        <div className={`card col-md-8 col-12 offset-md-2 bg-transparent`}>
+            <h5 className={`card-header bg-secondary text-light bg-opacity-50 ${ styles.filelistHeader }`}>
                 Files list
             </h5>
-            <div className="card-body bg-light">
-                <ul className="list-group">
+            <div className={`card-body bg-light bg-opacity-25 ${ styles.filelistBody }`}>
+                <Nav className="flex-column list-group">
                     {
                         files.map( ( file: MediaInterface ): JSX.Element => {
                             return (
-                                <li
-                                    className="list-group-item list-group-item-action d-flex justify-content-between align-items-start"
-                                    key={file.uuid}>
                                     <Link href={`/files/${ file.uuid }/`} passHref>
-                                        <a className="text-reset m-1 clearfix fw-bold">
+                                    <Nav.Link className="list-group-item py-3">
+                                        {file.title}
+                                        {/* <a className="text-reset m-1 clearfix fw-bold">
                                             <i className={'icon-' + iconService.getFileTypeIcon( file.fileType )}></i>
 
-                                            {file.title}
-                                        </a>
-                                    </Link>
-                                    <div className="actions">
+
+                                        </a> */}
+                                        <div className="actions float-end">
                                         {/* <div className="btn btn-primary me-2" title="Pay and download" onClick={( event ) => {
                                             getFile( file )
                                         }}>
@@ -119,13 +118,14 @@ const Files: NextPage = () => {
                                         <div className="btn btn-secondary" title="Download">
                                             <i className="icon-download-cloud"></i>
                                         </div> */}
-                                        {conditionalButton( file )}
+                                            {/* {conditionalButton( file )} */}
                                     </div>
-                                </li>
+                                    </Nav.Link>
+                                </Link>
                             )
                         } )
                     }
-                </ul>
+                </Nav>
             </div>
         </div>
     )

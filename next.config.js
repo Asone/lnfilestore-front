@@ -7,5 +7,8 @@ module.exports = {
     },
     publicRuntimeConfig: {
         api_host: process.env.API_HOST
+    },
+    serverRuntimeConfig: {
+        api_host: process.env.API_HOST
     }
 }
